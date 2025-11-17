@@ -16,7 +16,7 @@ int main(void)
     //print pyramid
     for (int i = 0; i < height; i++)
     {
-        for (int s = height - i; s > 0; s--)
+        for (int s = height - i - 1; s > 0; s--)
         {
             printf(" ");
         }
