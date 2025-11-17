@@ -5,7 +5,7 @@ void print_row(int bricks);
 
 int main(void)
 {
-    //prompt for input
+    // prompt for input
     int height;
     do
     {
@@ -13,14 +13,14 @@ int main(void)
     }
     while (height < 1);
 
-    //print pyramid
+    // print pyramid
     for (int i = 0; i < height; i++)
     {
         for (int s = height - i - 1; s > 0; s--)
         {
             printf(" ");
         }
-        print_row(i+1);
+        print_row(i + 1);
     }
 }
 void print_row(int bricks)
@@ -31,4 +31,3 @@ void print_row(int bricks)
     }
     printf("\n");
 }
-
