@@ -22,7 +22,7 @@ int main(int argc, string argv[])
             return 1;
         }
     }
-    else if (check_key(argv[1]) != 0)
+    if (check_key(argv[1]) != 0)
     {
         printf("Invalid key\n");
     }
