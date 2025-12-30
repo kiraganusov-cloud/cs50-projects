@@ -1,8 +1,8 @@
 #include <cs50.h>
-#include <stdio.h>
-#include <math.h>
-#include <string.h>
 #include <ctype.h>
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 int count_letters(string text);
 int count_words(string text);
@@ -16,7 +16,7 @@ int main(void)
 
     // calculate readability
     int readability = calculate_readability(text);
-    
+
     // print readability
     if (readability < 1)
     {
@@ -78,8 +78,8 @@ int calculate_readability(string text)
     int words = count_words(text);
     int sentences = count_sentences(text);
 
-    float L = (float)letters/words * 100;
-    float S = (float)sentences/words * 100;
+    float L = (float) letters / words * 100;
+    float S = (float) sentences / words * 100;
 
     return round(0.0588 * L - 0.296 * S - 15.8);
 }
