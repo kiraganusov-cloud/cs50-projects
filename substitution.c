@@ -44,6 +44,10 @@ string convert(string plaintext)
             index = plaintext[i] - 'a';
             cipher = tolower(code_array[index]);
         }
+        else
+        {
+            cipher = plaintext[i];
+        }
         ciphertext[i] = cipher;
     }
     return ciphertext;
