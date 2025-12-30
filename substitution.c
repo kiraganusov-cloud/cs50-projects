@@ -37,7 +37,7 @@ string convert(string plaintext)
         if (isupper(plaintext[i]))
         {
             index = plaintext[i] - 'A';
-            cipher = code_array[index];
+            cipher = toupper(code_array[index]);
         }
         else if (islower(plaintext[i]))
         {
