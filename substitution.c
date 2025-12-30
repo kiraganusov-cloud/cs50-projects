@@ -1,4 +1,5 @@
 #include <cs50.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -30,17 +31,20 @@ string convert(string plaintext)
 {
     string ciphertext = plaintext;
     int index = 0;
+    char cipher;
     for (int i = 0; i < strlen(plaintext); i++)
     {
-        if ('A' <= plaintext[i] && plaintext[i] <= 'Z')
+        if (isupper(plaintext[i]))
         {
             index = plaintext[i] - 'A';
+            cipher = code_array[index];
         }
-        else if ('a' <= plaintext[i] && plaintext[i] <= 'z')
+        else if (islower(plaintext[i]))
         {
             index = plaintext[i] - 'a';
+            cipher = tolower(code_array[index]);
         }
-        ciphertext[i] = code_array[index];
+        ciphertext[i] = cipher;
     }
     return ciphertext;
 }
