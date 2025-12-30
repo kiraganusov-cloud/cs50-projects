@@ -25,6 +25,7 @@ int main(int argc, string argv[])
     if (check_key(argv[1]) != 0)
     {
         printf("Invalid key\n");
+        return 1;
     }
     code_array = argv[1];
 
@@ -35,6 +36,7 @@ int main(int argc, string argv[])
 
 int check_key(string key)
 {
+    printf("%s\n", key);
     for (int i = 0; i < strlen(key); i++)
     {
         if (!isalpha(key[i]))
