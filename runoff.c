@@ -148,7 +148,7 @@ void tabulate(void)
         candidates[i].votes = 0;
     }
 
-    //update votes
+    // update votes
     for (int i = 0; i < voter_count; i++)
     {
         for (int j = 0; j < candidate_count; j++)
@@ -210,7 +210,6 @@ bool is_tie(int min)
         }
     }
     return true;
-
 }
 
 // Eliminate the candidate (or candidates) in last place
