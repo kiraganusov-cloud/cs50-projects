@@ -1,0 +1,11 @@
+sort1 uses: Bubble sort
+
+How do you know?: This is bubble sort because it was significantly more efficient when sorting the pre-sorted lists of numbers compared to other sorts and lists.
+
+sort2 uses: Merge sort
+
+How do you know?: This is merge sort because the time it took to sort was the most efficient for large lists of numbers and the time did not grow exponentially.
+
+sort3 uses: Selection sort
+
+How do you know?: I know that it is the selection sort because the times to sort were the same independent of how they were originally sorted.
