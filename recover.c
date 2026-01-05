@@ -1,6 +1,6 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 
 int main(int argc, char *argv[])
 {
@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
     while (fread(buffer, 1, 512, card) == 512)
     {
         // if the first 4 bytes are the jpeg header (0xff 0xd8 0xff 0xe?)
-        if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
+        if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff &&
+            (buffer[3] & 0xf0) == 0xe0)
         {
             // if its the first file make a new file
             if (jpeg_counter == 0)
