@@ -1,7 +1,7 @@
-height = int(input("Height : "))
-
-if (1 <= height <= 8):
-    for i in range(1, height + 1):
-        print(" " * (height - i) + "*" * i)
-else:
+while True:
     height = int(input("Height : "))
+    if (height >= 1 and height <= 8):
+        break
+
+for i in range(1, height + 1):
+    print(" " * (height - i) + "*" * i)
