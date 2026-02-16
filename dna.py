@@ -24,13 +24,11 @@ def main():
     sequence = open(sys.argv[2])
     dna_sequence = sequence.read()
 
-
     # TODO: Find longest match of each STR in DNA sequence
     sequence_results = []
 
     for i in strs:
         sequence_results.append(longest_match(dna_sequence, i))
-
 
     # TODO: Check database for matching profiles
     for person in people:
