@@ -1,6 +1,9 @@
 from cs50 import get_float
 
-dollars = get_float("Change: ")
+while True:
+    dollars = get_float("Change: ")
+    if (dollars >= 0):
+        break
 
 cents = dollars * 100
 coins = 0
