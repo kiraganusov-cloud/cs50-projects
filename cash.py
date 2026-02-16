@@ -7,25 +7,25 @@ while True:
 
 cents = dollars * 100
 coins = 0
-#check quarters
+# check quarters
 while (cents >= 25):
     cents -= 25
     coins += 1
 
-#check dines
+# check dines
 while (cents >= 10):
     cents -= 10
     coins += 1
 
-#check nickels
+# check nickels
 while (cents >= 5):
     cents -= 5
     coins += 1
 
-#check pennies
+# check pennies
 while (cents >= 1):
     cents -= 1
     coins += 1
 
-#print min coins
+# print min coins
 print(coins)
