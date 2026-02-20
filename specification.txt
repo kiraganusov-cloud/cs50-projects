@@ -1,0 +1,11 @@
+HTML tags used:
+h1, p, nav, a, div, link, script, title, meta
+
+CSS properties used:
+background-color, color, font-size, margin-left, text-decoration
+
+Bootstrap:
+Used bootstrap navbar and container classes
+
+Javascript:
+added click event to heading and link that changes text color and adds pill around when hovering
