@@ -93,10 +93,8 @@ def buy():
         if user_cash < total_to_buy:
             return apology("Not enough funds")
 
-        user_cash -= total_to_buy
-
         # update cash
-        db.execute("UPDATE users SET cash = ? WHERE id = ?", user_cash, session["user_id"])
+        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?", total_to_buy, session["user_id"])
 
         # add to history
         db.execute("INSERT INTO history (id, time, price, symbol, share, action) VALUES(?, ?, ?, ?, ?, ?)",

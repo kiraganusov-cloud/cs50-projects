@@ -7,7 +7,7 @@
 {% block main %}
     <h2>Portfolio</h2>
 
-    <h4>Cash: ${{ cash }}</h4>
+    <h4>Cash: ${{ "%.2f"|format(cash) }}</h4>
 
     <h4>Grand Toal: ${{ grand_total }}</h4>
 
