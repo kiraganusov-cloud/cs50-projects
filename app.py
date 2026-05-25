@@ -75,20 +75,19 @@ def buy():
         symbol = request.form.get("symbol")
         shares = request.form.get("shares")
 
-        try:
-            shares = int(shares)
-        except:
-            return apology("Shares must be a number")
-
-
-        if not symbol or not lookup(symbol):
-            return apology("Provide a symbol")
-        if shares <= 0:
-            return apology("Add more shares")
-
         quote = lookup(symbol)
+        if not symbol or quote is None:
+            return apology("Provide a symbol")
+
+        if not shares or not shares.isdigit():
+            return apology("invalid shares")
+
+        shares = int(shares)
+        if shares <= 0:
+            return apology("Shares must be a positive number")
+
         price = quote["price"]
-        total_to_buy = price * shares
+        total_to_buy = round(price * shares, 2)
         user_cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])[0]["cash"]
 
         if user_cash < total_to_buy:
