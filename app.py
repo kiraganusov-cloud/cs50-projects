@@ -44,7 +44,7 @@ def index():
     for row in rows:
         quote = lookup(row["symbol"])
         row["price"] = quote["price"]
-        row["total"] = row["price"] * row["shares"]
+        row["total"] = round(row["price"] * row["shares"], 2)
         shares_total += row["total"]
 
     grand_total = shares_total + cash
