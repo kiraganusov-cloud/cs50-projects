@@ -23,12 +23,12 @@
 
         <tbody>
             {% for row in rows %}
-            <tr>
-                <td>{{ row.symbol }}</td>
-                <td>{{ row.shares }}</td>
-                <td>{{ "%.2f"|format(row.price) }}</td>
-                <td>{{ "%.2f"|format(row.total) }}</td>
-            </tr>
+                <tr>
+                    <td>{{ row.symbol }}</td>
+                    <td>{{ row.shares }}</td>
+                    <td>{{ "%.2f"|format(row.price) }}</td>
+                    <td>{{ "%.2f"|format(row.total) }}</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>

@@ -22,6 +22,7 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
 
+
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -50,7 +51,8 @@ def index():
     grand_total = shares_total + cash
     grand_total = round(grand_total, 2)
 
-    return render_template("portfolio.html", rows = rows, cash = cash, grand_total = grand_total)
+    return render_template("portfolio.html", rows=rows, cash=cash, grand_total=grand_total)
+
 
 @app.route("/addcash", methods=["GET", "POST"])
 @login_required
@@ -94,20 +96,24 @@ def buy():
             return apology("Not enough funds")
 
         # update cash
-        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?", total_to_buy, session["user_id"])
+        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?",
+                   total_to_buy, session["user_id"])
 
         # add to history
         db.execute("INSERT INTO history (id, time, price, symbol, share, action) VALUES(?, ?, ?, ?, ?, ?)",
                    session["user_id"], datetime.now().isoformat(), price, symbol, shares, "buy")
 
         # update portfolio
-        rows = db.execute("SELECT shares FROM portfolio WHERE id = ? AND symbol = ?", session["user_id"], symbol)
+        rows = db.execute("SELECT shares FROM portfolio WHERE id = ? AND symbol = ?",
+                          session["user_id"], symbol)
 
         if len(rows) == 0:
-            db.execute("INSERT INTO portfolio (id, symbol, shares) VALUES(?, ?, ?)", session["user_id"], symbol, shares)
+            db.execute("INSERT INTO portfolio (id, symbol, shares) VALUES(?, ?, ?)",
+                       session["user_id"], symbol, shares)
 
         else:
-            db.execute("UPDATE portfolio SET shares = shares + ? WHERE id = ? AND symbol = ?", shares, session["user_id"], symbol)
+            db.execute("UPDATE portfolio SET shares = shares + ? WHERE id = ? AND symbol = ?",
+                       shares, session["user_id"], symbol)
 
         return redirect("/")
 
@@ -118,9 +124,10 @@ def buy():
 @login_required
 def history():
     """Show history of transactions"""
-    rows = db.execute("SELECT time, action, symbol, share, price FROM history WHERE id=?", session["user_id"])
+    rows = db.execute(
+        "SELECT time, action, symbol, share, price FROM history WHERE id=?", session["user_id"])
 
-    return render_template("history.html", rows = rows)
+    return render_template("history.html", rows=rows)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -197,7 +204,6 @@ def quote():
         return render_template("quote.html")
 
 
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
@@ -219,7 +225,8 @@ def register():
             return apology("passwords do not match")
 
         try:
-            db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
+            db.execute("INSERT INTO users (username, hash) VALUES(?, ?)",
+                       username, generate_password_hash(password))
         except ValueError:
             return apology("username already exists")
 
@@ -249,9 +256,8 @@ def sell():
         if shares <= 0:
             return apology("Must sell 1 or more shares")
 
-
-        row = db.execute("SELECT shares FROM portfolio WHERE id = ? AND symbol = ?", session["user_id"], symbol)
-
+        row = db.execute("SELECT shares FROM portfolio WHERE id = ? AND symbol = ?",
+                         session["user_id"], symbol)
 
         if len(row) == 0:
             return apology("You do not own that stock")
@@ -262,7 +268,8 @@ def sell():
 
         # update history
         price = lookup(symbol)["price"]
-        db.execute("INSERT INTO history (id, time, price, symbol, share, action) VALUES(?, ?, ?, ?, ?, ?)", session["user_id"], datetime.now().isoformat(), price, symbol, shares, "sell")
+        db.execute("INSERT INTO history (id, time, price, symbol, share, action) VALUES(?, ?, ?, ?, ?, ?)",
+                   session["user_id"], datetime.now().isoformat(), price, symbol, shares, "sell")
 
         # update cash
         sold_total = price * shares
@@ -271,15 +278,15 @@ def sell():
         db.execute("UPDATE users SET cash=? WHERE id=?", cash, session["user_id"])
 
         # update portfolio
-        db.execute("UPDATE portfolio SET shares = shares - ? WHERE id=? AND symbol=?", shares, session["user_id"], symbol)
+        db.execute("UPDATE portfolio SET shares = shares - ? WHERE id=? AND symbol=?",
+                   shares, session["user_id"], symbol)
 
-        #delete any rows with 0
+        # delete any rows with 0
         db.execute(
             "DELETE FROM portfolio WHERE id=? AND symbol=? AND shares=0",
             session["user_id"],
             symbol
         )
-
 
     else:
         stocks = db.execute(
@@ -287,6 +294,6 @@ def sell():
             session["user_id"]
         )
 
-        return render_template("sell.html", stocks = stocks)
+        return render_template("sell.html", stocks=stocks)
 
     return redirect("/")

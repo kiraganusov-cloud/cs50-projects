@@ -20,13 +20,13 @@
 
         <tbody>
             {% for row in rows %}
-            <tr>
-                <td>{{ row.time }}</td>
-                <td>{{ row.action }}</td>
-                <td>{{ row.symbol }}</td>
-                <td>{{ row.share }}</td>
-                <td>{{ "%.2f"|format(row.price) }}</td>
-            </tr>
+                <tr>
+                    <td>{{ row.time }}</td>
+                    <td>{{ row.action }}</td>
+                    <td>{{ row.symbol }}</td>
+                    <td>{{ row.share }}</td>
+                    <td>{{ "%.2f"|format(row.price) }}</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
