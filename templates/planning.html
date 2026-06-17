@@ -1,0 +1,192 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Planner
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+
+        <!-- Top header -->
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h1 class="mb-0">Personal Planner</h1>
+                <small> add your goals/plans for each year</small>
+            </div>
+            <div class="text-end">
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#addgoal">
+                        <span style="margin-bottom: 10px;">Add a goal</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="min-height: 400px;">
+            <div class="col border-end">
+                <h5 class="text-center border-bottom pb-2">
+                    9th
+                </h5>
+
+                {% for item in g9 %}
+                    <div class="my-1">
+                        <button class="btn btn-sm btn-custom d-block w-100" data-bs-toggle="collapse"
+                                data-bs-target="#desc{{ item.id }}">
+                            {{ item.name }}
+                        </button>
+                        <div class="collapse" id="desc{{ item.id }}">
+
+                            <form action="/delete_goal" method="post" class="d-inline">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-danger p-0"> delete </button>
+                            </form>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col border-end">
+                <h5 class="text-center border-bottom pb-2">
+                    10th
+                </h5>
+
+                {% for item in g10 %}
+                    <div class="my-1">
+                        <button class="btn btn-sm btn-custom d-block w-100" data-bs-toggle="collapse"
+                                data-bs-target="#desc{{ item.id }}">
+                            {{ item.name }}
+                        </button>
+                        <div class="collapse" id="desc{{ item.id }}">
+
+                            <form action="/delete_goal" method="post" class="d-inline">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-danger p-0"> delete </button>
+                            </form>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col border-end">
+                <h5 class="text-center border-bottom pb-2">
+                    11th
+                </h5>
+
+                {% for item in g11 %}
+                    <div class="my-1">
+                        <button class="btn btn-sm btn-custom d-block w-100" data-bs-toggle="collapse"
+                                data-bs-target="#desc{{ item.id }}">
+                            {{ item.name }}
+                        </button>
+                        <div class="collapse" id="desc{{ item.id }}">
+
+                            <form action="/delete_goal" method="post" class="d-inline">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-danger p-0"> delete </button>
+                            </form>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col">
+                <h5 class="text-center border-bottom pb-2">
+                    12th
+                </h5>
+
+                {% for item in g12 %}
+                    <div class="my-1">
+                        <button class="btn btn-sm btn-custom d-block w-100" data-bs-toggle="collapse"
+                                data-bs-target="#desc{{ item.id }}">
+                            {{ item.name }}
+                        </button>
+                        <div class="collapse" id="desc{{ item.id }}">
+
+                            <form action="/delete_goal" method="post" class="d-inline">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-danger p-0"> delete </button>
+                            </form>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addgoal" tabindex="-1" aria-labelledby="addgoal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addgoal">Add a goal</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="/addgoal" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <!-- The 4 choice buttons -->
+                            <div class="d-flex gap-2 mb-3">
+                                <button type="button" class="btn btn-outline-dark flex-fill choice-btn"
+                                        data-category="9">9th</button>
+                                <button type="button" class="btn btn-outline-dark flex-fill choice-btn"
+                                        data-category="10">10th</button>
+                                <button type="button" class="btn btn-outline-dark flex-fill choice-btn"
+                                        data-category="11">11th</button>
+                                <button type="button" class="btn btn-outline-dark flex-fill choice-btn"
+                                        data-category="12">12th</button>
+                            </div>
+
+                            <!-- Hidden field that actually gets submitted -->
+                            <input type="hidden" name="grade" id="categoryInput">
+
+                            <!-- Input, hidden until a button is picked -->
+                            <input type="text" name="goal" id="nameInput" class="form-control d-none"
+                                placeholder="course, extracurricular, ect..." autocomplete="off">
+
+                        </div>
+
+                        {% for message in get_flashed_messages() %}
+                            <div class="alert alert-danger mt-2 mx-auto w-auto" style="max-width: 300px;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-custom">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const buttons = document.querySelectorAll(".choice-btn");
+        const categoryInput = document.getElementById("categoryInput");
+        const nameInput = document.getElementById("nameInput");
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                // store the picked category in the hidden field
+                categoryInput.value = btn.dataset.category;
+
+                // highlight the selected button, un-highlight the others
+                buttons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                // reveal the text box and focus it
+                nameInput.classList.remove("d-none");
+                nameInput.focus();
+            });
+        });
+    </script>
+
+{% endblock %}

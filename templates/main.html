@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student Board
+{% endblock %}
+
+{% block main %}
+
+    <!-- POSTS DISPLAY -->
+    {% for post in posts %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <span class="badge rounded-pill btn-custom">{{ post.username }}</span>
+                <span class="badge rounded-pill btn-custom-2">{{ post.type }}</span>
+                <span class="badge rounded-pill btn-custom">{{ post.location }}</span>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.body }}</p>
+                <small> · {{ post.created_at }} · </small>
+            </div>
+
+            <div class="card-footer">
+                <h5 class="card-title">Comments</h5>
+
+                {% for comment in post.comments %}
+                    <div class="mb-1">
+                        <span class="badge rounded-pill btn-custom">{{ comment.username }}</span>
+                        {{ comment.body }}
+                    </div>
+                {% endfor %}
+
+                <form action="/comment" method="post">
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    <div class="d-flex gap-2 mb-2">
+                        <input class="form-control" name="comment" placeholder="Reply" type="text" autocomplete="off">
+                        <button type="submit" class="btn btn-custom">Reply</button>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    {% endfor %}
+
+    <!-- Button trigger modal -->
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-custom rounded-circle"
+            style="position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; font-size: 50px; padding: 0; display: flex; align-items: center; justify-content: center;"
+            data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <span style="margin-bottom: 10px;">+</span>
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Write your post:</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="/" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+
+                            <select class="form-select mb-2" name="type">
+                                <option disabled selected value="">Type</option>
+                                <option value="opportunity">Opportunity</option>
+                                <option value="event">Event</option>
+                                <option value="question">Question</option>
+                            </select>
+
+                            <input class="form-control mb-2" autocomplete="off" name="location" placeholder="Location e.g. Bay Area, online">
+
+                            <input class="form-control mb-2" auocomplete="off" name="title" placeholder="Title">
+
+
+                            <textarea class="form-control" autocomplete="off" autofocus name="text" placeholder="Text" rows="3"
+                                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'">
+                            </textarea>
+                        </div>
+
+                        {% for message in get_flashed_messages() %}
+                            <div class="alert alert-danger mt-2 mx-auto w-auto" style="max-width: 300px;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-custom">Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
