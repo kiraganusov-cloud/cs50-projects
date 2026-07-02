@@ -1,0 +1,280 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Account
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+
+        <!-- Top header -->
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h1 class="mb-0">{{ user.username }}</h1>
+                <small>grade: {{ user.grade }}</small>
+            </div>
+            <div class="text-end">
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <span style="margin-bottom: 10px;">edit</span>
+                    </button>
+                </div>
+                <div>SAT: {{ user.sat_score }}</div>
+                <div>ACT: {{ user.act_score }}</div>
+            </div>
+        </div>
+        <div class="row" style="min-height: 400px;">
+            <div class="col border-end">
+                <h5 class="text-center border-bottom pb-2">
+                    Courses
+                    <button class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addcourse">+</button>
+                </h5>
+
+                {% for item in courses %}
+                    <div class="my-1">
+                        <button class="btn btn-sm btn-custom d-block w-100" data-bs-toggle="collapse"
+                                data-bs-target="#desc{{ item.id }}">
+                            {{ item.name }}
+                        </button>
+                        <div class="collapse" id="desc{{ item.id }}">
+                            {{ item.description }}
+
+                            <form action="/delete_item" method="post" class="d-inline">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-danger p-0"> delete </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col border-end">
+                <h5 class="text-center border-bottom pb-2">
+                    Awards
+                    <button class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addaward">+</button>
+                </h5>
+
+                {% for item in awards %}
+                    <div class="my-1">
+                        <button class="btn btn-sm btn-custom d-block w-100" data-bs-toggle="collapse"
+                                data-bs-target="#desc{{ item.id }}">
+                            {{ item.name }}
+                        </button>
+                        <div class="collapse" id="desc{{ item.id }}">
+                            {{ item.description }}
+
+                            <form action="/delete_item" method="post" class="d-inline">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-danger p-0"> delete </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col">
+                <h5 class="text-center border-bottom pb-2">
+                    ExtraCurriculars
+                    <button class="btn btn-sm btn-outline-dark"data-bs-toggle="modal" data-bs-target="#addec">+</button>
+                </h5>
+
+                {% for item in extracurriculars %}
+                    <div class="my-1">
+                        <button class="btn btn-sm btn-custom d-block w-100" data-bs-toggle="collapse"
+                                data-bs-target="#desc{{ item.id }}">
+                            {{ item.name }}
+                        </button>
+                        <div class="collapse" id="desc{{ item.id }}">
+                            {{ item.description }}
+
+                            <form action="/delete_item" method="post" class="d-inline">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-sm btn-danger p-0"> delete </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Change:</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="/editprofile" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <!-- The 3 choice buttons -->
+                            <div class="d-flex gap-2 mb-3">
+                                <button type="button" class="btn btn-outline-dark flex-fill choice-btn"
+                                        data-category="grade">Grade</button>
+                                <button type="button" class="btn btn-outline-dark flex-fill choice-btn"
+                                        data-category="sat">SAT</button>
+                                <button type="button" class="btn btn-outline-dark flex-fill choice-btn"
+                                        data-category="act">ACT</button>
+                            </div>
+
+                            <!-- Hidden field that actually gets submitted -->
+                            <input type="hidden" name="category" id="categoryInput">
+
+                            <!-- Input, hidden until a button is picked -->
+                            <input type="text" name="name" id="nameInput" class="form-control d-none"
+                                placeholder="Change here..." autocomplete="off">
+
+                        </div>
+
+                        {% for message in get_flashed_messages() %}
+                            <div class="alert alert-danger mt-2 mx-auto w-auto" style="max-width: 300px;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-custom">Change</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const buttons = document.querySelectorAll(".choice-btn");
+        const categoryInput = document.getElementById("categoryInput");
+        const nameInput = document.getElementById("nameInput");
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                // store the picked category in the hidden field
+                categoryInput.value = btn.dataset.category;
+
+                // highlight the selected button, un-highlight the others
+                buttons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                // reveal the text box and focus it
+                nameInput.classList.remove("d-none");
+                nameInput.focus();
+            });
+        });
+    </script>
+
+    <div class="modal fade" id="addcourse" tabindex="-1" aria-labelledby="addcourse" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addcourse">Add:</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="/add_item" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input type="hidden" name="category" value="course">
+
+                            <input class="form-control mb-2" auocomplete="off" name="title" placeholder="* Title">
+
+
+                            <textarea class="form-control" autocomplete="off" name="description" placeholder="Description (optional)" rows="3"
+                                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'"></textarea>
+
+                        </div>
+
+                        {% for message in get_flashed_messages() %}
+                            <div class="alert alert-danger mt-2 mx-auto w-auto" style="max-width: 300px;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-custom">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="addaward" tabindex="-1" aria-labelledby="addaward" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addaward">Add:</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="/add_item" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input type="hidden" name="category" value="award">
+
+                            <input class="form-control mb-2" auocomplete="off" name="title" placeholder="* Title">
+
+
+                            <textarea class="form-control" autocomplete="off" name="description" placeholder="Description (optional)" rows="3"
+                                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'"></textarea>
+
+                        </div>
+
+                        {% for message in get_flashed_messages() %}
+                            <div class="alert alert-danger mt-2 mx-auto w-auto" style="max-width: 300px;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-custom">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addec" tabindex="-1" aria-labelledby="addec" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addec">Add:</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="/add_item" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input type="hidden" name="category" value="extracurricular">
+
+                            <input class="form-control mb-2" auocomplete="off" name="title" placeholder="* Title">
+
+
+                            <textarea class="form-control" autocomplete="off" name="description" placeholder="Description (optional)" rows="3"
+                                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'"></textarea>
+
+                        </div>
+
+                        {% for message in get_flashed_messages() %}
+                            <div class="alert alert-danger mt-2 mx-auto w-auto" style="max-width: 300px;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-custom">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
